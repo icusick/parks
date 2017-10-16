@@ -3,6 +3,9 @@ import { Link } from 'react-router-dom';
 import { Carousel } from 'react-responsive-carousel';
 import styles from 'react-responsive-carousel/lib/styles/carousel.min.css';
 
+import ParkWeather from './park_weather';
+
+
 const ParkAPI = {
   parks: [
     { id: 1, name: "Acadia National Park", location: "Maine", images: ['../images/acadia_1.jpg', '../images/acadia_2.jpg', '../images/acadia_3.jpg'] },
@@ -37,15 +40,20 @@ class ParkShow extends Component {
       			<h2>State: {park.location}</h2>
       			
       			<Link to='/parks'>Back</Link>
-      			<Carousel showArrows={true} axis="horizontal" infiniteLoop autoPlay>
-      					<img src={park.images[0]} />
-      					<p className="legend">Legend 1</p>
-      					<img src={park.images[1]} />
-      					<p className="legend">Legend 2</p>
-						<img src={park.images[2]} />
-      					<p className="legend">Legend 3</p>
-      				
+      			<div className="my-carousel">
+      			<Carousel showArrows={true} axis="horizontal" infiniteLoop autoPlay dynamicHeight={true} showThumbs={false}>
+      					<div>
+      						<img src={park.images[0]} />
+      					</div>
+      					<div>
+      						<img src={park.images[1]} />
+      					</div>
+      					<div>
+							<img src={park.images[2]} />
+      					</div>
       			</Carousel>
+      			</div>
+      			<ParkWeather city={park.name} />
     		</div>
 		)
   	}
