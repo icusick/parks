@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import { Sparklines, SparklinesLine, SparklinesReferenceLine } from 'react-sparklines';
 
-const API_KEY = '4b7edebc57349e5aa4f637a4fe98af59';
-const ROOT_URL = 'http://api.openweathermap.org/data/2.5/forecast?appid=' + API_KEY;
+export const API_KEY = '4b7edebc57349e5aa4f637a4fe98af59';
+export const ROOT_URL = 'http://api.openweathermap.org/data/2.5/forecast?appid=' + API_KEY;
 
 class ParkWeather extends Component {
 	constructor(props) {
