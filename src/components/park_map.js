@@ -1,5 +1,9 @@
 import React, { Component } from 'react';
-import { Map, InfoWindow, Marker, GoogleApiWrapper } from 'google-maps-react';
+import { Map, GoogleApiWrapper } from 'google-maps-react';
+import axios from 'axios';
+
+const API_KEY = '4b7edebc57349e5aa4f637a4fe98af59';
+const ROOT_URL = 'http://api.openweathermap.org/data/2.5/forecast?appid=' + API_KEY;
 
 const style = {
 	width: '300px', 
@@ -7,6 +11,22 @@ const style = {
 }
 
 class GoogleMap extends Component {
+	constructor(props) {
+		super(props);
+
+		this.state = {
+			lat: "", 
+			lon: ""
+		}
+	}
+
+	componentDidMount() {
+		axios.get(`${ROOT_URL}&q=${this.props.city},us`)
+			 .then(response => {
+			 	console.log("lat" + response);
+			 });
+		
+	}
 
 
 	render() {
@@ -17,8 +37,8 @@ class GoogleMap extends Component {
 				zoom={12}
 				style={style}
 				initialCenter={{
-            		lat:  38.916554,
-            		lng:  -77.025977 
+            		lat:  this.props.lat,
+            		lng:  this.props.lon 
           		}}
 			></Map>
 			
@@ -26,6 +46,15 @@ class GoogleMap extends Component {
 		);
 	}
 }
+
+// GoogleMap.propTypes = {
+//  propArray: PropTypes.array.isRequired, 
+//  propBool: PropTypes.bool.isRequired,
+//  propFunc: PropTypes.func,
+//  propNumber: PropTypes.number,
+//  propString: PropTypes.string,
+//  propObject: PropTypes.object
+// }
 
 export default GoogleApiWrapper({
   apiKey: 'AIzaSyBisoAT_PP5ybV9UXfIsVktOVF4jopAYgg'
