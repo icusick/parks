@@ -23,7 +23,6 @@ class ParkWeather extends Component {
 			 	this.setState({ temps: temps });
 			 	// console.log("state: " + this.state.temps);
 			 });
-		
 	}
 	
 	render() {

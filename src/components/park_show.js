@@ -12,6 +12,10 @@ const NPS_API_KEY = 'B10fQSv2VLNENYG0DViy5qrHdRNSnl3vh1IQpeF1';
 const NPS_PARKS_URL = '//developer.nps.gov/api/v1/parks?parkCode=';
 const NPS_ALERTS_URL = '//developer.nps.gov/api/v1/alerts?parkCode=';
 const NPS_CAMPGROUNDS_URL = '//developer.nps.gov/api/v1/campgrounds?parkCode=';
+const NPS_VISITORCENTER_URL = '//developer.nps.gov/api/v1/visitorcenters?parkCode=';
+
+const API_KEY = '4b7edebc57349e5aa4f637a4fe98af59';
+const ROOT_URL = 'http://api.openweathermap.org/data/2.5/forecast?appid=' + API_KEY;
 
 
 
@@ -56,12 +60,13 @@ class ParkShow extends Component {
 			weatherInfo: "", 
 			alerts: [], 
 			campgrounds: [], 
+      visitorCenters: [],
 			modalIsOpen: false
 			};
 
-    this.openModal = this.openModal.bind(this);
-    this.afterOpenModal = this.afterOpenModal.bind(this);
-    this.closeModal = this.closeModal.bind(this);
+      this.openModal = this.openModal.bind(this);
+      this.afterOpenModal = this.afterOpenModal.bind(this);
+      this.closeModal = this.closeModal.bind(this);
 		}
 
 	componentDidMount() {
@@ -92,9 +97,14 @@ class ParkShow extends Component {
 			 	// console.log(response);
 			 	// console.log(response.data.data.length);
 			 	const campgrounds = response.data.data;
-			 	this.setState({campgrounds: campgrounds})
+			 	this.setState({campgrounds: campgrounds});
 			 });
-
+    axios.get(`${NPS_VISITORCENTER_URL}${park.parkCode}&api_key=${NPS_API_KEY}`)
+       .then(response => {
+        console.log(response.data.data);
+        const visitorCenters = response.data.data;
+        this.setState({visitorCenters: visitorCenters})
+       });
 	}
 
 	openModal() {
@@ -176,16 +186,10 @@ class ParkShow extends Component {
       		
       			<ParkWeather city={park.name} />
       			<div>
-      				<GoogleMap city={park.name} lat={40.7831} lon={73.9712} />
+      				<GoogleMap city={park.name}  />
       			</div>
-      			      
-
-      
-
-      			
-      			
-    		</div>
-		)
+      		</div>
+		  )
   	}
 }
 
