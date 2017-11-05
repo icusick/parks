@@ -1,3 +1,7 @@
 .my-carousel {
 	max-height: 400px;
 }
+
+.glyph .glyphicon {
+	font-size: 75px;
+}

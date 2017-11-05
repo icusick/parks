@@ -3,7 +3,8 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { Carousel } from 'react-responsive-carousel';
 import styles from 'react-responsive-carousel/lib/styles/carousel.min.css';
-import Modal from 'react-modal';
+import { Modal, Button } from 'react-bootstrap';
+
 
 import ParkWeather from './park_weather';
 import GoogleMap from './park_map';
@@ -13,11 +14,6 @@ const NPS_PARKS_URL = '//developer.nps.gov/api/v1/parks?parkCode=';
 const NPS_ALERTS_URL = '//developer.nps.gov/api/v1/alerts?parkCode=';
 const NPS_CAMPGROUNDS_URL = '//developer.nps.gov/api/v1/campgrounds?parkCode=';
 const NPS_VISITORCENTER_URL = '//developer.nps.gov/api/v1/visitorcenters?parkCode=';
-
-const API_KEY = '4b7edebc57349e5aa4f637a4fe98af59';
-const ROOT_URL = 'http://api.openweathermap.org/data/2.5/forecast?appid=' + API_KEY;
-
-
 
 const ParkAPI = {
   parks: [
@@ -35,39 +31,21 @@ const ParkAPI = {
   }
 }
 
-const customStyles = {
-  content : {
-    top                   : '50%',
-    left                  : '50%',
-    right                 : 'auto',
-    bottom                : 'auto',
-    marginRight           : '-50%',
-    transform             : 'translate(-50%, -50%)', 
-    width				  : '50%', 
-    height 				  : '500px',
-    WebkitOverflowScrolling    : 'touch', 
-    overflow 			  : 'scroll'
-  }
-}
-
 class ParkShow extends Component {
 	constructor(props) {
 		super(props);
 
-		this.state = {
+    this.state = {
 			description: "", 
 			directionsInfo: "", 
 			weatherInfo: "", 
 			alerts: [], 
 			campgrounds: [], 
       visitorCenters: [],
-			modalIsOpen: false
-			};
+			showModal: false
+		};
 
-      this.openModal = this.openModal.bind(this);
-      this.afterOpenModal = this.afterOpenModal.bind(this);
-      this.closeModal = this.closeModal.bind(this);
-		}
+	}
 
 	componentDidMount() {
 		const park = ParkAPI.get(parseInt(this.props.match.params.id, 10));
@@ -95,9 +73,9 @@ class ParkShow extends Component {
 		axios.get(`${NPS_CAMPGROUNDS_URL}${park.parkCode}&api_key=${NPS_API_KEY}`)
 			 .then(response => {
 			 	// console.log(response);
-			 	// console.log(response.data.data.length);
-			 	const campgrounds = response.data.data;
+			  const campgrounds = response.data.data;
 			 	this.setState({campgrounds: campgrounds});
+        console.log(this.state.campgrounds[0].regulationsUrl);
 			 });
     axios.get(`${NPS_VISITORCENTER_URL}${park.parkCode}&api_key=${NPS_API_KEY}`)
        .then(response => {
@@ -107,21 +85,24 @@ class ParkShow extends Component {
        });
 	}
 
-	openModal() {
-    	this.setState({modalIsOpen: true});
-  	}
- 
-  afterOpenModal() {
-    // references are now sync'd and can be accessed.
-    this.subtitle.style.color = '#f00';
+  //react-bootstrap 
+  getInitialState() {
+    return { llgShow: false, lgShow: false, vcShow: false };
   }
- 
-  closeModal() {
-    this.setState({modalIsOpen: false});
+
+  close() {
+    this.setState({ showModal: false });
+  }
+
+  open() {
+    this.setState({ showModal: true });
   }
 	
 
 	render() {
+    let llgClose = () => this.setState({ llgShow: false });
+    let lgClose = () => this.setState({ lgShow: false });
+    let vcClose = () => this.setState({ vcShow: false });
 		const park = ParkAPI.get(parseInt(this.props.match.params.id, 10));
 
 		// console.log(this.props);
@@ -137,51 +118,53 @@ class ParkShow extends Component {
       			
       			<Link to='/parks'>Back</Link>
       			<div className="my-carousel">
-      			<Carousel showArrows={true} axis="horizontal" infiniteLoop autoPlay dynamicHeight={true} showThumbs={false}>
-      					<div>
-      						<img src={park.images[0]} />
-      					</div>
-      					<div>
-      						<img src={park.images[1]} />
-      					</div>
-      					<div>
-							<img src={park.images[2]} />
-      					</div>
-      			</Carousel>
+      			  <Carousel showArrows={true} axis="horizontal" infiniteLoop autoPlay dynamicHeight={true} showThumbs={false}>
+      			  		<div>
+      			  			<img src={park.images[0]} />
+      			  		</div>
+      			  		<div>
+      			  			<img src={park.images[1]} />
+      			  		</div>
+      			  		<div>
+						   	    <img src={park.images[2]} />
+      			  		</div>
+      			  </Carousel>
       			</div>
-      			<p>{this.state.description}</p>
-      			<div className="row">
-      				<div className="col-md-6">
+      			<p className="lead well">{this.state.description}</p>
+      			<div className="row text-center">
+      				<div className="col-md-4 offset-md-2">
       					<i className='glyphicon glyphicon-plane'></i>
       					<p> {this.state.directionsInfo}</p>
       				</div>
-      				<div className="col-md-6">
+      				<div className="col-md-4 offset-md-1">
       					<i className='glyphicon glyphicon-cloud'></i>
       					<p>Weather: {this.state.weatherInfo}</p>
       				</div>
       			</div>
-      			<div className="row">
-      				<div className="col-md-6">
-      					<i className='glyphicon glyphicon-plane'></i>
-      					Alerts: 
-      					<button onClick={this.openModal}>Click here for alerts!</button>
-        				<Modal
-        				  isOpen={this.state.modalIsOpen}
-        				  onAfterOpen={this.afterOpenModal}
-        				  onRequestClose={this.closeModal}
-        				  style={customStyles}
-        				  contentLabel="Example Modal"
-        				>
- 							<h2 ref={subtitle => this.subtitle = subtitle}>Alerts for { park.name}</h2>
-        				  	<ul>{this.state.alerts.map(alert =>
-      									<li key={alert.id}>{alert.title}:<p>{alert.description}</p></li>
-      								)}</ul>
-        				  <h6>{park.name}</h6>
-        				  <button onClick={this.closeModal}>close</button>
-        				</Modal>
-        			</div>
-        		
-      			</div>
+      			<div className="row mt-5">
+              <div className="col-md-4 text-center">
+                <div className="glyph"><i className='glyphicon glyphicon-alert'></i></div>
+                <Button bsStyle="warning" onClick={() => this.setState({ llgShow: true })}>
+                  Click here for alerts
+                </Button>
+              </div>
+              <div className="col-md-4 text-center">
+                <div className="glyph"><i className='glyphicon glyphicon-tent'></i></div>
+                <Button bsStyle="primary" onClick={() => this.setState({ lgShow: true })}>
+                  Click here for campgrounds
+                </Button>
+              </div>
+              <div className="col-md-4 text-center">
+                <div className="glyph"><i className='glyphicon glyphicon-info-sign'></i></div>
+                <Button bsStyle="info" onClick={() => this.setState({ vcShow: true })}>
+                  Click here for visitor centers
+                </Button>
+              </div>
+              <MySmallModal show={this.state.llgShow} onHide={llgClose} alerts={this.state.alerts} parkname={park.name} />
+              <MyLargeModal show={this.state.lgShow} onHide={lgClose} campgrounds={this.state.campgrounds} parkname={park.name} />
+              <VisitorCenterModal show={this.state.vcShow} onHide={vcClose} visitorCenters={this.state.visitorCenters} parkname={park.name} />
+             
+        	  </div>
 
       		
       			<ParkWeather city={park.name} />
@@ -191,6 +174,68 @@ class ParkShow extends Component {
       		</div>
 		  )
   	}
+}
+
+class MySmallModal extends Component {
+  render() {
+    return (
+      <Modal {...this.props} bsSize="lg" aria-labelledby="contained-modal-title-lg">
+        <Modal.Header closeButton>
+          <Modal.Title id="contained-modal-title-lg">Alerts for {this.props.parkname}</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <ul>{this.props.alerts.map(alert =>
+              <li key={alert.id}><strong>{alert.title}:</strong>:<p>{alert.description}</p></li>
+          )}</ul>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button onClick={this.props.onHide}>Close</Button>
+        </Modal.Footer>
+      </Modal>
+    );
+  }
+};
+
+class MyLargeModal extends Component {
+  render() {
+    return (
+      <Modal {...this.props} bsSize="large" aria-labelledby="contained-modal-title-lg">
+        <Modal.Header closeButton>
+          <Modal.Title id="contained-modal-title-lg">Campgrounds for {this.props.parkname}</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <h4>Total: {this.props.campgrounds.length}</h4>
+          <ul>{this.props.campgrounds.map(campground =>
+            <li key={campground.id}><strong>{campground.name}:</strong><p>{campground.directionsOverview}</p></li>
+          )}</ul>
+
+        </Modal.Body>
+        <Modal.Footer>
+          <Button onClick={this.props.onHide}>Close</Button>
+        </Modal.Footer>
+      </Modal>
+    );
+  }
+};
+
+class VisitorCenterModal extends Component {
+  render() {
+    return (
+      <Modal {...this.props} bsSize="large" aria-labelledby="contained-modal-title-lg">
+        <Modal.Header closeButton>
+          <Modal.Title id="contained-modal-title-lg">Visitor Centers for {this.props.parkname}</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <ul>{this.props.visitorCenters.map(visitorCenter =>
+            <li key={visitorCenter.id}><strong>{visitorCenter.name}:</strong><p>{visitorCenter.description}</p></li>
+          )}</ul>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button onClick={this.props.onHide}>Close</Button>
+        </Modal.Footer>
+      </Modal>
+      )
+  }
 }
 
 export default ParkShow;
