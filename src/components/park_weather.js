@@ -18,7 +18,7 @@ class ParkWeather extends Component {
 		axios.get(`${ROOT_URL}&q=${this.props.city},us`)
 			 .then(response => {
 			 	const temps = response.data.list.map(obj => obj.main.temp);
-			 	console.log(response);
+			 	// console.log(response);
 			 	// console.log("temps: " + temps);
 			 	this.setState({ temps: temps });
 			 	// console.log("state: " + this.state.temps);

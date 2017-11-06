@@ -4,10 +4,11 @@ import { Link } from 'react-router-dom';
 import { Carousel } from 'react-responsive-carousel';
 import styles from 'react-responsive-carousel/lib/styles/carousel.min.css';
 import { Modal, Button } from 'react-bootstrap';
-
+import '../index.css';
 
 import ParkWeather from './park_weather';
 import GoogleMap from './park_map';
+import NYTimes from './ny_times';
 
 const NPS_API_KEY = 'B10fQSv2VLNENYG0DViy5qrHdRNSnl3vh1IQpeF1';
 const NPS_PARKS_URL = '//developer.nps.gov/api/v1/parks?parkCode=';
@@ -75,11 +76,11 @@ class ParkShow extends Component {
 			 	// console.log(response);
 			  const campgrounds = response.data.data;
 			 	this.setState({campgrounds: campgrounds});
-        console.log(this.state.campgrounds[0].regulationsUrl);
+        // console.log(this.state.campgrounds[0].regulationsUrl);
 			 });
     axios.get(`${NPS_VISITORCENTER_URL}${park.parkCode}&api_key=${NPS_API_KEY}`)
        .then(response => {
-        console.log(response.data.data);
+        // console.log(response.data.data);
         const visitorCenters = response.data.data;
         this.setState({visitorCenters: visitorCenters})
        });
@@ -131,7 +132,7 @@ class ParkShow extends Component {
       			  </Carousel>
       			</div>
       			<p className="lead well">{this.state.description}</p>
-      			<div className="row text-center">
+      			<div className="row text-center glyph">
       				<div className="col-md-4 offset-md-2">
       					<i className='glyphicon glyphicon-plane'></i>
       					<p> {this.state.directionsInfo}</p>
@@ -171,6 +172,11 @@ class ParkShow extends Component {
       			<div>
       				<GoogleMap city={park.name}  />
       			</div>
+
+            <div>
+              <NYTimes city={park.name} />
+            </div>
+
       		</div>
 		  )
   	}

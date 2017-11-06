@@ -29,7 +29,7 @@ class GoogleMap extends Component {
         // console.log(lat, lon)
         this.setState({ lat: lat });
         this.setState({ lon: lon });
-        console.log(this.state.lat, this.state.lon)
+        // console.log(this.state.lat, this.state.lon)
        });
 	}
 
