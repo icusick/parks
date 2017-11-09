@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import '../index.css';
 
 const ParkAPI = {
   parks: [
@@ -20,17 +21,14 @@ const ParkAPI = {
 class ParksIndex extends Component {
   render() {
     return (
-      <div>
-        <ul>
+      <div>        
             {
             ParkAPI.all().map(p => (
-             <li key={p.id}>
-                <Link to={`/parks/${p.id}`}>{p.name}</Link>
-              </li>
-            ))
-          }
-       </ul>
-    </div>
+              <Link to={`/parks/${p.id}`}><img className="img-thumbnail ind-img col-md-4 thumb" src="../images/acadia_2.jpg"></img></Link>
+              ))
+            }
+
+      </div>
     )
   }
 }

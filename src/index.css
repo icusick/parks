@@ -1,9 +1,3 @@
-/*body {
-  margin: 0;
-  padding: 0;
-  font-family: sans-serif;
-}*/
-
 .glyph .glyphicon {
 	font-size: 25px;
 }
@@ -13,7 +7,12 @@
 }
 
 .scrollify {
-	  /*-webkit-overflow-scrolling: touch;*/
 	  overflow: scroll;
 	  height: 500px;
 }
+
+.ind-img:hover {
+	background-color: red;
+	opacity: 0.5;
+}
+

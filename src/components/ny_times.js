@@ -20,7 +20,7 @@ class NYTimes extends Component {
 			 	// console.log(response.data.response.docs);
 			 	const articles = response.data.response.docs;
 			 	this.setState({ articles: articles});
-			 	console.log(this.state.articles);
+			 	// console.log(this.state.articles);
 			 })
 	}
 

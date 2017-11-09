@@ -18,7 +18,7 @@ const NPS_VISITORCENTER_URL = '//developer.nps.gov/api/v1/visitorcenters?parkCod
 
 const ParkAPI = {
   parks: [
-    { id: 1, parkCode: "acad", name: "Acadia National Park", location: "Maine", images: ['../images/acadia_1.jpg', '../images/acadia_2.jpg', '../images/acadia_3.jpg'] },
+    { id: 1, parkCode: "acad", name: "Acadia National Park", location: "Maine", images: ['../images/acadia_1.png', '../images/acadia_2.jpg', '../images/acadia_3.jpg'] },
     { id: 2, parkCode: "yose", name: "Yosemite", location: "California", images: ['../images/acadia_1.jpg', '../images/acadia_2.jpg', '../images/acadia_3.jpg'] },
     { id: 3, parkCode: "yell", name: "Yellowstone National Park ", location: "Wyoming", images: ['../images/yellowstone3.jpg', '../images/yellowstone3.jpg', '../images/yellowstone4.jpg'] },
     { id: 4, parkCode: "grte", name: "Grand Teton National Park", location: "Wyoming", images: ['../images/grand_tetons1.jpg', '../images/grand_tetons_3.jpg', '../images/grand_tetons_6.jpg'] },
@@ -32,6 +32,7 @@ const ParkAPI = {
   }
 }
 
+
 class ParkShow extends Component {
 	constructor(props) {
 		super(props);
@@ -43,10 +44,14 @@ class ParkShow extends Component {
 			alerts: [], 
 			campgrounds: [], 
       visitorCenters: [],
-			showModal: false
+			showModal: false, 
+      lat: 0, 
+      lon: 0
 		};
 
 	}
+
+
 
 	componentDidMount() {
 		const park = ParkAPI.get(parseInt(this.props.match.params.id, 10));
@@ -57,33 +62,45 @@ class ParkShow extends Component {
 				// console.log(response.data.data);
 				// console.log(response.data.data.map(obj => obj.description));
 				const description = response.data.data.map(obj => obj.description);
-				const directionsInfo = response.data.data.map(obj => obj.directionsInfo)
-				const weatherInfo = response.data.data.map(obj => obj.weatherInfo)
-				// console.log(description);
-				this.setState({ description: description });
-				this.setState({ directionsInfo: directionsInfo});
-				this.setState({ weatherInfo: weatherInfo });
+				const directionsInfo = response.data.data.map(obj => obj.directionsInfo);
+				const weatherInfo = response.data.data.map(obj => obj.weatherInfo);
+        const latLon = response.data.data.map(obj => obj.latLong);
+        // console.log(latLon)
+        const stringify = latLon.toString();
+        // console.log(stringify)
+        const regEx = stringify.match(/lat:(.*), long:(.*)/);
+        // console.log(regEx);
+        const lat = regEx[1];
+        const lon = regEx[2];
+        // console.log(lat, lon);
+    //     this.setState({ lat: lat, lon: lon})
+    //     console.log(this.state.lat);
+				// // console.log(description);
+				// this.setState({ description: description });
+				// this.setState({ directionsInfo: directionsInfo});
+				this.setState({ weatherInfo: weatherInfo, directionsInfo: directionsInfo, description: description, lat: lat, lon: lon });
 			});
 		axios.get(`${NPS_ALERTS_URL}${park.parkCode}&api_key=${NPS_API_KEY}`)
 			 .then(response => {
 			 	// console.log(response.data.data);
 			 	const alerts = response.data.data;
-			 	this.setState({alerts: alerts});
+			 	this.setState({ ...this.state, alerts: alerts});
 			 	// console.log(this.state.alerts);
 			});
 		axios.get(`${NPS_CAMPGROUNDS_URL}${park.parkCode}&api_key=${NPS_API_KEY}`)
 			 .then(response => {
 			 	// console.log(response);
 			  const campgrounds = response.data.data;
-			 	this.setState({campgrounds: campgrounds});
+			 	this.setState({...this.state, campgrounds: campgrounds});
         // console.log(this.state.campgrounds[0].regulationsUrl);
 			 });
     axios.get(`${NPS_VISITORCENTER_URL}${park.parkCode}&api_key=${NPS_API_KEY}`)
        .then(response => {
         // console.log(response.data.data);
         const visitorCenters = response.data.data;
-        this.setState({visitorCenters: visitorCenters})
+        this.setState({ ...this.state, visitorCenters: visitorCenters});
        });
+
 	}
 
   //react-bootstrap 
@@ -118,8 +135,8 @@ class ParkShow extends Component {
       		
       			
       			<Link to='/parks'>Back</Link>
-      			<div className="my-carousel">
-      			  <Carousel showArrows={true} axis="horizontal" infiniteLoop autoPlay dynamicHeight={true} showThumbs={false}>
+      			<div>
+      			  <Carousel className="my-carousel" showArrows={true} axis="horizontal" infiniteLoop autoPlay dynamicHeight={true} showThumbs={false}>
       			  		<div>
       			  			<img src={park.images[0]} />
       			  		</div>
@@ -170,7 +187,7 @@ class ParkShow extends Component {
       		
       			<ParkWeather city={park.name} />
       			<div>
-      				<GoogleMap city={park.name}  />
+      				<GoogleMap city={park.name} lat={this.state.lat} lon={this.state.lon} />
       			</div>
 
             <div>
@@ -232,9 +249,11 @@ class VisitorCenterModal extends Component {
           <Modal.Title id="contained-modal-title-lg">Visitor Centers for {this.props.parkname}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <ul>{this.props.visitorCenters.map(visitorCenter =>
-            <li key={visitorCenter.id}><strong>{visitorCenter.name}:</strong><p>{visitorCenter.description}</p></li>
-          )}</ul>
+          
+            <ul>{this.props.visitorCenters.map(visitorCenter =>
+              <li key={visitorCenter.id}><strong>{visitorCenter.name}:</strong><p>{visitorCenter.description}</p></li>
+            )}</ul>
+          
         </Modal.Body>
         <Modal.Footer>
           <Button onClick={this.props.onHide}>Close</Button>

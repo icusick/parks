@@ -14,39 +14,33 @@ class GoogleMap extends Component {
 	constructor(props) {
 		super(props);
 
-		this.state = {
-			lat: 0, 
-			lon: 0
-		}
+		
 	}
 
 	componentDidMount() {
-		axios.get(`${ROOT_URL}&q=${this.props.city},us`)
-       		 .then(response => {
-        // console.log(response.data.city.coord);
-        const lat = response.data.city.coord.lat;
-        const lon = response.data.city.coord.lon;
-        // console.log(lat, lon)
-        this.setState({ lat: lat });
-        this.setState({ lon: lon });
-        // console.log(this.state.lat, this.state.lon)
-       });
+	
+
+       
 	}
 
 	render() {
-		return (
-			
-			<Map 
-				google={this.props.google} 
-				zoom={9}
-				style={style}
-				initialCenter={{
-            		lat:  this.state.lat,
-            		lng:  this.state.lon
-          		}}
-			></Map>
-			 
-		);
+        const initialCenter = {lat: this.props.lat, lng: this.props.lon}
+     	console.log("ic is " + initialCenter.lat);
+     	if (!initialCenter.lat) {
+     		return (<div>Empty</div>)
+     	}
+		else {
+			return (
+				
+				<Map 
+					google={this.props.google} 
+					zoom={9}
+					style={style}
+					initialCenter={initialCenter}
+				></Map>
+				 
+			);
+		}
 	}
 }
 
