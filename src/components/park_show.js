@@ -4,11 +4,13 @@ import { Link } from 'react-router-dom';
 import { Carousel } from 'react-responsive-carousel';
 import styles from 'react-responsive-carousel/lib/styles/carousel.min.css';
 import { Modal, Button } from 'react-bootstrap';
+import update from 'immutability-helper';
 import '../index.css';
 
 import ParkWeather from './park_weather';
 import GoogleMap from './park_map';
 import NYTimes from './ny_times';
+import { ParkAPI } from './parks_index';
 
 const NPS_API_KEY = 'B10fQSv2VLNENYG0DViy5qrHdRNSnl3vh1IQpeF1';
 const NPS_PARKS_URL = '//developer.nps.gov/api/v1/parks?parkCode=';
@@ -16,22 +18,7 @@ const NPS_ALERTS_URL = '//developer.nps.gov/api/v1/alerts?parkCode=';
 const NPS_CAMPGROUNDS_URL = '//developer.nps.gov/api/v1/campgrounds?parkCode=';
 const NPS_VISITORCENTER_URL = '//developer.nps.gov/api/v1/visitorcenters?parkCode=';
 
-const ParkAPI = {
-  parks: [
-    { id: 1, parkCode: "acad", name: "Acadia National Park", location: "Maine", images: ['../images/acadia_1.png', '../images/acadia_2.jpg', '../images/acadia_3.jpg'] },
-    { id: 2, parkCode: "yose", name: "Yosemite", location: "California", images: ['../images/acadia_1.jpg', '../images/acadia_2.jpg', '../images/acadia_3.jpg'] },
-    { id: 3, parkCode: "yell", name: "Yellowstone National Park ", location: "Wyoming", images: ['../images/yellowstone3.jpg', '../images/yellowstone3.jpg', '../images/yellowstone4.jpg'] },
-    { id: 4, parkCode: "grte", name: "Grand Teton National Park", location: "Wyoming", images: ['../images/grand_tetons1.jpg', '../images/grand_tetons_3.jpg', '../images/grand_tetons_6.jpg'] },
-    { id: 5, parkCode: "grca", name: "Grand Canyon National Park", location: "Arizona", images: ['../images/grand_canyon_1.jpg', '../images/grand_canyon_2.jpg', '../images/grand_canyon_3.jpg'] },
-    { id: 6, parkCode: "meve", name: "Mesa Verde National Park", location: "Colorado", images: ['../images/', '../images/', '../images/'] }
-  ],
-  all: function() { return this.parks},
-  get: function(id) {
-    const isPark = p => p.id === id
-    return this.parks.find(isPark)
-  }
-}
-
+const WUNDERGROUNG_URL = 'http://api.wunderground.com/api/b5806acb9436670f/conditions/q/';
 
 class ParkShow extends Component {
 	constructor(props) {
@@ -40,66 +27,82 @@ class ParkShow extends Component {
     this.state = {
 			description: "", 
 			directionsInfo: "", 
-			weatherInfo: "", 
+			weatherInfo: [], 
 			alerts: [], 
 			campgrounds: [], 
       visitorCenters: [],
 			showModal: false, 
       lat: 0, 
-      lon: 0
+      lon: 0,
+      feelslike: "", 
+      temp: 0, 
+      icon: ""
 		};
 
 	}
 
 
 
-	componentDidMount() {
+	componentWillMount() {
 		const park = ParkAPI.get(parseInt(this.props.match.params.id, 10));
 		axios.get(`${NPS_PARKS_URL}${park.parkCode}&api_key=${NPS_API_KEY}`)
 			.then(response => {
 				// console.log(response);
 				// console.log(response.data);
-				// console.log(response.data.data);
+				console.log(response.data.data);
 				// console.log(response.data.data.map(obj => obj.description));
 				const description = response.data.data.map(obj => obj.description);
+        // let updatedDescription = this.state.description.concat(description);
 				const directionsInfo = response.data.data.map(obj => obj.directionsInfo);
+        // let updatedDirections = update(this.state.directionsInfo, {$merge: {directionsInfo: directionsInfo}}); 
 				const weatherInfo = response.data.data.map(obj => obj.weatherInfo);
+        let updatedWeather = update(this.state.weatherInfo, {$push: [weatherInfo]});
         const latLon = response.data.data.map(obj => obj.latLong);
         // console.log(latLon)
         const stringify = latLon.toString();
-        // console.log(stringify)
+        console.log(stringify)
         const regEx = stringify.match(/lat:(.*), long:(.*)/);
-        // console.log(regEx);
+        console.log(regEx);
         const lat = regEx[1];
         const lon = regEx[2];
+        console.log("lat and lon: " + lat, lon);
+         // let lat = update(this.state.lat, {$push: [latt]});
+         // let lon = update(this.state.lon, {$push: [lonn]});
+ 
+
+        // let updatedLat = this.state.lat.concat(lat);
+        // let updatedLon = this.state.lat.conca
         // console.log(lat, lon);
-    //     this.setState({ lat: lat, lon: lon})
-    //     console.log(this.state.lat);
+        this.setState({ lat: lat, lon: lon})
+        console.log(this.state.lat, this.state.lon);
 				// // console.log(description);
 				// this.setState({ description: description });
 				// this.setState({ directionsInfo: directionsInfo});
-				this.setState({ weatherInfo: weatherInfo, directionsInfo: directionsInfo, description: description, lat: lat, lon: lon });
+				this.setState({ weatherInfo: updatedWeather, directionsInfo: directionsInfo, description: description });
 			});
 		axios.get(`${NPS_ALERTS_URL}${park.parkCode}&api_key=${NPS_API_KEY}`)
 			 .then(response => {
 			 	// console.log(response.data.data);
 			 	const alerts = response.data.data;
-			 	this.setState({ ...this.state, alerts: alerts});
+			 	this.setState({ alerts: alerts});
 			 	// console.log(this.state.alerts);
 			});
 		axios.get(`${NPS_CAMPGROUNDS_URL}${park.parkCode}&api_key=${NPS_API_KEY}`)
 			 .then(response => {
-			 	// console.log(response);
+			 	// console.log(response.data.data);
 			  const campgrounds = response.data.data;
-			 	this.setState({...this.state, campgrounds: campgrounds});
+        let updatedCampgrounds = update(this.state.campgrounds, {$push: [campgrounds]});
+			 	// this.setState(prevState => ({ campgrounds: prevState.campgrounds.push(campgrounds)}));
         // console.log(this.state.campgrounds[0].regulationsUrl);
 			 });
     axios.get(`${NPS_VISITORCENTER_URL}${park.parkCode}&api_key=${NPS_API_KEY}`)
        .then(response => {
         // console.log(response.data.data);
         const visitorCenters = response.data.data;
-        this.setState({ ...this.state, visitorCenters: visitorCenters});
+        let updatedVC = this.state.visitorCenters.concat(response.data.data);
+        this.setState({ visitorCenters: updatedVC});
        });
+    
 
 	}
 
@@ -123,78 +126,69 @@ class ParkShow extends Component {
     let vcClose = () => this.setState({ vcShow: false });
 		const park = ParkAPI.get(parseInt(this.props.match.params.id, 10));
 
-		// console.log(this.props);
+		console.log(park.images);
   		
-  		if (!park) {
+  		if (!park && !this.state.lat) {
   			return <div>Sorry, the park was not found</div>
   		}
 
   		return (
-  			<div>
-      			<h1>Welcome to: {park.name}</h1>
+  			<div className="container">
+      			<h1>Welcome to: {park.name} National Park</h1>
       		
       			
       			<Link to='/parks'>Back</Link>
       			<div>
-      			  <Carousel className="my-carousel" showArrows={true} axis="horizontal" infiniteLoop autoPlay dynamicHeight={true} showThumbs={false}>
-      			  		<div>
-      			  			<img src={park.images[0]} />
-      			  		</div>
-      			  		<div>
-      			  			<img src={park.images[1]} />
-      			  		</div>
-      			  		<div>
-						   	    <img src={park.images[2]} />
-      			  		</div>
+      			  <Carousel showArrows={true} axis="horizontal" infiniteLoop={true} autoPlay={true} dynamicHeight={true} showThumbs={false} interval={3000}>
+      			  		
+                    {park.images.map(img => 
+                      <img className="pic" src={img} />
+                    )}
+      			  		
       			  </Carousel>
       			</div>
       			<p className="lead well">{this.state.description}</p>
       			<div className="row text-center glyph">
-      				<div className="col-md-4 offset-md-2">
+      				<div className="col-md-4 offset-md-1">
       					<i className='glyphicon glyphicon-plane'></i>
       					<p> {this.state.directionsInfo}</p>
       				</div>
       				<div className="col-md-4 offset-md-1">
       					<i className='glyphicon glyphicon-cloud'></i>
-      					<p>Weather: {this.state.weatherInfo}</p>
+      					<p>{this.state.weatherInfo}</p>
       				</div>
       			</div>
       			<div className="row mt-5">
-              <div className="col-md-4 text-center">
-                <div className="glyph"><i className='glyphicon glyphicon-alert'></i></div>
+              <div className="col-md-4 text-center offset-md-1">
+                <div className="glyph"><i className='glyphicon glyphicon-alert buttons'></i></div>
                 <Button bsStyle="warning" onClick={() => this.setState({ llgShow: true })}>
                   Click here for alerts
                 </Button>
-              </div>
-              <div className="col-md-4 text-center">
-                <div className="glyph"><i className='glyphicon glyphicon-tent'></i></div>
+                <div className="glyph"><i className='glyphicon glyphicon-tent buttons'></i></div>
                 <Button bsStyle="primary" onClick={() => this.setState({ lgShow: true })}>
                   Click here for campgrounds
                 </Button>
-              </div>
-              <div className="col-md-4 text-center">
-                <div className="glyph"><i className='glyphicon glyphicon-info-sign'></i></div>
+                <div className="glyph"><i className='glyphicon glyphicon-info-sign buttons'></i></div>
                 <Button bsStyle="info" onClick={() => this.setState({ vcShow: true })}>
                   Click here for visitor centers
                 </Button>
-              </div>
-              <MySmallModal show={this.state.llgShow} onHide={llgClose} alerts={this.state.alerts} parkname={park.name} />
+                <MySmallModal show={this.state.llgShow} onHide={llgClose} alerts={this.state.alerts} parkname={park.name} />
               <MyLargeModal show={this.state.lgShow} onHide={lgClose} campgrounds={this.state.campgrounds} parkname={park.name} />
               <VisitorCenterModal show={this.state.vcShow} onHide={vcClose} visitorCenters={this.state.visitorCenters} parkname={park.name} />
-             
-        	  </div>
-
-      		
-      			<ParkWeather city={park.name} />
-      			<div>
-      				<GoogleMap city={park.name} lat={this.state.lat} lon={this.state.lon} />
-      			</div>
-
-            <div>
-              <NYTimes city={park.name} />
+              </div>
+              <div className="col-md-6 offset-md-1">
+                <GoogleMap city={park.name} lat={this.state.lat} lon={this.state.lon} />
+              </div>
             </div>
-
-      		</div>
+            <div className="row third-row">
+      			  <div className="col-md-5">
+                <NYTimes city={park.name} />
+              </div>
+              <div className="col-md-4 offset-md-2 weather">
+                <ParkWeather city={park.name} lat={this.state.lat} lon={this.state.lon} parkcode={park.parkCode}/>
+              </div> 
+            </div>
+        </div>
 		  )
   	}
 }
@@ -243,6 +237,21 @@ class MyLargeModal extends Component {
 
 class VisitorCenterModal extends Component {
   render() {
+    if (this.props.visitorCenters.length === 0) {
+      return (<Modal {...this.props} bsSize="large" aria-labelledby="contained-modal-title-lg">
+        <Modal.Header closeButton>
+          <Modal.Title id="contained-modal-title-lg">Visitor Centers for {this.props.parkname}</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          
+            <div>There is no information about visitor centers at {this.props.parkname} at this time.</div>
+          
+        </Modal.Body>
+        <Modal.Footer>
+          <Button onClick={this.props.onHide}>Close</Button>
+        </Modal.Footer>
+      </Modal>)
+    } else {
     return (
       <Modal {...this.props} bsSize="large" aria-labelledby="contained-modal-title-lg">
         <Modal.Header closeButton>
@@ -260,6 +269,7 @@ class VisitorCenterModal extends Component {
         </Modal.Footer>
       </Modal>
       )
+    }
   }
 }
 

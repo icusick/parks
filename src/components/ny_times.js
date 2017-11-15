@@ -17,19 +17,17 @@ class NYTimes extends Component {
 	componentDidMount() {
 		axios.get(`${NYTIME_ROOT_URL}${this.props.city}&api-key=${NYTIMES_API_KEY}`)
 			 .then(response => {
-			 	// console.log(response.data.response.docs);
 			 	const articles = response.data.response.docs;
 			 	this.setState({ articles: articles});
-			 	// console.log(this.state.articles);
-			 })
+			});
 	}
 
 	render() {
 		return (
-			<div className="col-md-7 offset-md-4">
+			<div className="ny-times-div">
 			<h3 className ="ny-times">New York Times</h3>
 			<ul className="list-group scrollify">{this.state.articles.map(article =>
-				<a href={article.web_url} target="_blank" className="list-group-item" key={article.id}><strong>{article.headline.main}</strong><p>{article.snippet}</p></a>
+				<a href={article.web_url} target="_blank" className="list-group-item" key={article._id}><strong>{article.headline.main}</strong><p>{article.snippet}</p></a>
 				)}
 			</ul>
 			</div>
