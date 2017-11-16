@@ -12,14 +12,14 @@ import GoogleMap from './park_map';
 import NYTimes from './ny_times';
 import { ParkAPI } from './parks_index';
 
-const NPS_API_KEY = process.env.NPS_API_KEY;
+const NPS_API_KEY = 'B10fQSv2VLNENYG0DViy5qrHdRNSnl3vh1IQpeF1';
 
 const NPS_PARKS_URL = '//developer.nps.gov/api/v1/parks?parkCode=';
 const NPS_ALERTS_URL = '//developer.nps.gov/api/v1/alerts?parkCode=';
 const NPS_CAMPGROUNDS_URL = '//developer.nps.gov/api/v1/campgrounds?parkCode=';
 const NPS_VISITORCENTER_URL = '//developer.nps.gov/api/v1/visitorcenters?parkCode=';
 
-const WUNDERGROUNG_URL = 'http://api.wunderground.com/api/b5806acb9436670f/conditions/q/';
+const WUNDERGROUNG_URL = '//api.wunderground.com/api/b5806acb9436670f/conditions/q/';
 
 class ParkShow extends Component {
 	constructor(props) {

@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
 import { Map, GoogleApiWrapper } from 'google-maps-react';
 
-const API_KEY = '4b7edebc57349e5aa4f637a4fe98af59';
-const ROOT_URL = 'http://api.openweathermap.org/data/2.5/forecast?appid=' + API_KEY;
-
 const style = {
 	width: '70%', 
 	height: '150%'
