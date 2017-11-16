@@ -3,7 +3,7 @@ import axios from 'axios';
 import '../index.css';
 
 const NYTIMES_API_KEY = '37ba2670588b4dddbd94eca5e6b40801';
-const NYTIME_ROOT_URL = 'http://api.nytimes.com/svc/search/v2/articlesearch.json?q=';
+const NYTIME_ROOT_URL = '//api.nytimes.com/svc/search/v2/articlesearch.json?q=';
 
 class NYTimes extends Component {
 	constructor(props) {

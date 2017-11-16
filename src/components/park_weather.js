@@ -6,7 +6,7 @@ import update from 'immutability-helper';
 
 // const API_KEY = '4b7edebc57349e5aa4f637a4fe98af59';
 // const ROOT_URL = 'http://api.openweathermap.org/data/2.5/forecast?appid=' + API_KEY;
-const WUNDERGROUNG_URL = 'http://api.wunderground.com/api/b5806acb9436670f/conditions/q/';
+const WUNDERGROUNG_URL = '//api.wunderground.com/api/b5806acb9436670f/conditions/q/';
 const NPS_API_KEY = 'B10fQSv2VLNENYG0DViy5qrHdRNSnl3vh1IQpeF1';
 const NPS_PARKS_URL = '//developer.nps.gov/api/v1/parks?parkCode=';
 
@@ -24,22 +24,6 @@ class ParkWeather extends Component {
 		};
 	}
 
-	componentWillMount() {
-		axios.get(`${NPS_PARKS_URL}${this.props.parkcode}&api_key=${NPS_API_KEY}`)
-			 .then(response => {
-			 	// console.log(response);
-			 	const latLon = response.data.data.map(obj => obj.latLong);
-        		const stringify = latLon.toString();        		
-	       		const regEx = stringify.match(/lat:(.*), long:(.*)/);
-        		const lat = regEx[1];
-        		const lon = regEx[2];
-        		
-        		let updatedLatt = update(this.state.latt, {$set: lat});
-        		let updatedLonn = update(this.state.lonn, {$set: lon});
-        		this.setState({ latt: updatedLatt, lonn: updatedLonn });
-        		// console.log(this.state.latt, this.state.lonn);
-			 });
-	}
 
 	componentWillReceiveProps(nextProps) {
 		axios.get(`${WUNDERGROUNG_URL}${nextProps.lat},${nextProps.lon}.json`)
