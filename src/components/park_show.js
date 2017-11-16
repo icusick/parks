@@ -92,9 +92,10 @@ class ParkShow extends Component {
 			 .then(response => {
 			 	// console.log(response.data.data);
 			  const campgrounds = response.data.data;
-        let updatedCampgrounds = update(this.state.campgrounds, {$push: [campgrounds]});
+        // let updatedCampgrounds = update(this.state.campgrounds, {$push: [campgrounds]});
 			 	// this.setState(prevState => ({ campgrounds: prevState.campgrounds.push(campgrounds)}));
         // console.log(this.state.campgrounds[0].regulationsUrl);
+        this.setState({ campgrounds: campgrounds })
 			 });
     axios.get(`${NPS_VISITORCENTER_URL}${park.parkCode}&api_key=${NPS_API_KEY}`)
        .then(response => {
