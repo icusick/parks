@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import '../index.css';
+import Nav from './nav';
 
 export const ParkAPI = {
   parks: [
@@ -9,7 +10,7 @@ export const ParkAPI = {
     { id: 3, name: "Yellowstone", parkCode: "yell", images: ["../images/yellowstone1.jpg", "../images/yellowstone5.jpg", "../images/yellowstone2.jpg"] },
     { id: 4, name: "Grand Tetons", parkCode: "grte", images: ["../images/grand_tetons1.jpg", "../images/grand_tetons_3.jpg", "../images/grand_tetons_4.kpj.jpg", "../images/grand_tetons_5.jpg.jpg", "../images/grand_tetons_6.jpg"] },
     { id: 5, name: "Grand Canyon", parkCode: "grca", images: ["../images/grand_canyon_1.jpg", "../images/grand_canyon_2.jpg", "../images/grand_canyon_3.jpg", "../images/grand_canyon_4.jpg", "../images/grand_canyon_5.jpg"] },
-    { id: 6, name: "Mesa Verde", parkCode: "mesa", images: ["../images/mesa1.jpg", "../images/mesa3.jpg", "../images/mesa2.jpg"] }, 
+    { id: 6, name: "Mesa Verde", parkCode: "meve", images: ["../images/mesa1.jpg", "../images/mesa3.jpg", "../images/mesa2.jpg"] }, 
     { id: 7, name: "Arches", parkCode: "Arch", images: ["../images/arches1.jpg", "../images/arches2.jpg", "../images/arches3.jpg", "../images/arches4.jpg"]},
     { id: 8, name: "Badlands", parkCode: "badl", images: ["../images/badlands1.jpg", "../images/badlands2.jpg", "../images/badlands3.jpg"]},
     { id: 9, name: "Big Bend", parkCode: "bibe", images: ["../images/bend1.jpg", "../images/bend2.jpg", "../images/bend3.jpg"]},
@@ -65,26 +66,16 @@ export const ParkAPI = {
   }
 }
 
-class ParksIndex extends Component {
-  
+class ParksIndex extends Component { 
   render() {
     return (
-      <div>
-      <nav className="navbar navbar-light bg-faded">
-        <a className="navbar-brand" href="/">
-          <img className="d-inline-block align-top" src="../images/mountain_4.png" width="40" height="40" alt=""></img>
-          ParkDash
-        </a>
-        
-      </nav>
       <div>        
+            <Nav />
             {
             ParkAPI.all().map(p => (
               <Link to={`/parks/${p.id}`}><img className="img-thumbnail ind-img col-md-4 thumb" src={p.images[0]}></img></Link>
               ))
             }
-
-      </div>
       </div>
     )
   }

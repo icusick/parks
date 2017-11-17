@@ -61,12 +61,12 @@ class ParkShow extends Component {
         const latLon = response.data.data.map(obj => obj.latLong);
         // console.log(latLon)
         const stringify = latLon.toString();
-        console.log(stringify)
+        // console.log(stringify)
         const regEx = stringify.match(/lat:(.*), long:(.*)/);
-        console.log(regEx);
+        // console.log(regEx);
         const lat = regEx[1];
         const lon = regEx[2];
-        console.log("lat and lon: " + lat, lon);
+        // console.log("lat and lon: " + lat, lon);
          // let lat = update(this.state.lat, {$push: [latt]});
          // let lon = update(this.state.lon, {$push: [lonn]});
  
@@ -75,7 +75,7 @@ class ParkShow extends Component {
         // let updatedLon = this.state.lat.conca
         // console.log(lat, lon);
         this.setState({ lat: lat, lon: lon})
-        console.log(this.state.lat, this.state.lon);
+        // console.log(this.state.lat, this.state.lon);
 				// // console.log(description);
 				// this.setState({ description: description });
 				// this.setState({ directionsInfo: directionsInfo});
@@ -127,8 +127,6 @@ class ParkShow extends Component {
     let lgClose = () => this.setState({ lgShow: false });
     let vcClose = () => this.setState({ vcShow: false });
 		const park = ParkAPI.get(parseInt(this.props.match.params.id, 10));
-
-		console.log(park.images);
   		
   		if (!park && !this.state.lat) {
   			return <div>Sorry, the park was not found</div>

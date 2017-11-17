@@ -29,7 +29,7 @@ class ParkWeather extends Component {
 		axios.get(`${WUNDERGROUNG_URL}${nextProps.lat},${nextProps.lon}.json`)
     // 		"http://api.wunderground.com/api/b5806acb9436670f/conditions/q/44.30777545,-68.30063316.json"
        		.then(response => {
-       		 console.log(response.data.current_observation);
+       		 // console.log(response.data.current_observation);
        		 // console.log("current temp: " + response.data.current_observation.feelslike_string);
        		 const feelslike = response.data.current_observation.feelslike_string;
        		 this.setState({ feelslike: feelslike })
@@ -45,7 +45,7 @@ class ParkWeather extends Component {
        		 // console.log(this.state.icon);
        		})
        		.catch(function (error) {
-    				console.log(error);
+    				// console.log(error);
   	   		});
 		
   	   	
