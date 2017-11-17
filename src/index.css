@@ -47,9 +47,19 @@
 	font-size: 50px;
 }
 
-/*.brand {
-	font-size: 40px;
-	margin-top: 0px;
-}*/
+.img_img:hover .img_description {
+  visibility: visible;
+  opacity: 1;
+}
 
 .navbar-header a{float:left}
+
+.overflow-nav {
+	overflow: scroll;
+	/*max-height: 400px;*/
+}
+
+/*.dropdown-menu {
+    max-height: 500px;
+    overflow-y: auto;
+}*/
