@@ -11,6 +11,7 @@ import ParkWeather from './park_weather';
 import GoogleMap from './park_map';
 import NYTimes from './ny_times';
 import { ParkAPI } from './parks_index';
+import NavBar from './nav';
 
 const NPS_API_KEY = 'B10fQSv2VLNENYG0DViy5qrHdRNSnl3vh1IQpeF1';
 
@@ -133,11 +134,10 @@ class ParkShow extends Component {
   		}
 
   		return (
+        <div>
+        <NavBar/>
   			<div className="container">
-      			<h1>Welcome to: {park.name} National Park</h1>
-      		
-      			
-      			<Link to='/parks'>Back</Link>
+      			<h1>Welcome to {park.name} National Park</h1>      	      			
       			<div>
       			  <Carousel showArrows={true} axis="horizontal" infiniteLoop={true} autoPlay={true} dynamicHeight={true} showThumbs={false} interval={3000}>
       			  		
@@ -188,6 +188,7 @@ class ParkShow extends Component {
                 <ParkWeather city={park.name} lat={this.state.lat} lon={this.state.lon} parkcode={park.parkCode}/>
               </div> 
             </div>
+        </div>
         </div>
 		  )
   	}

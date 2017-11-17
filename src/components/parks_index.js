@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import '../index.css';
-import Nav from './nav';
+import NavBar from './nav';
 
 export const ParkAPI = {
   parks: [
@@ -70,7 +70,7 @@ class ParksIndex extends Component {
   render() {
     return (
       <div>        
-            <Nav />
+            <NavBar />
             {
             ParkAPI.all().map(p => (
               <Link to={`/parks/${p.id}`}><img className="img-thumbnail ind-img col-md-4 thumb" src={p.images[0]}></img></Link>
