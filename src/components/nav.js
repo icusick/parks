@@ -6,17 +6,20 @@ import { DropdownButton, MenuItem, Navbar, Nav, NavDropdown } from 'react-bootst
 class NavBar extends Component {
 	render() {
 		return (
-			<Navbar>
-			<Navbar.Brand>
+			<Navbar className="nav-flex">
+			<Navbar.Brand className="nb-brand">
+				<img className="d-inline-block align-top" src="../images/mountain_1.jpg" width="50" height="50" alt=""></img> 
         		<a href="/">ParkDash</a>
       		</Navbar.Brand>	
       		<Nav>        		
         		<NavDropdown title="Pick a Park" id="basic-nav-dropdown">
-        		  {
-            		ParkAPI.all().map(p => (
-            		  <MenuItem><Link to={`/parks/${p.id}`}><p>{p.name}</p></Link></MenuItem>
-            		  ))
-            		}  
+        			<div className="dropdown-overflow">
+        			  	{
+            			  ParkAPI.all().map(p => (
+            			    <MenuItem><Link to={`/parks/${p.id}`}><p>{p.name}</p></Link></MenuItem>
+            			    ))
+            			  }  
+            		</div>
         		</NavDropdown>
       		</Nav>
 			</Navbar>		

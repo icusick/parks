@@ -12,7 +12,7 @@
 
 .scrollify {
 	  overflow: scroll;
-	  height: 500px;
+	  height: 400px;
 }
 
 .ind-img:hover {
@@ -52,14 +52,26 @@
   opacity: 1;
 }
 
-.navbar-header a{float:left}
+/*.navbar-header a{float:left}*/
 
-.overflow-nav {
+.dropdown-overflow {
 	overflow: scroll;
-	/*max-height: 400px;*/
+	height: 400px;
+	padding-left: 1em;
 }
 
-/*.dropdown-menu {
-    max-height: 500px;
-    overflow-y: auto;
-}*/
+.brand-icon {
+	margin-bottom: 2em;
+	margin-top: 0px;
+}
+
+.nav-flex .nb-brand {
+  display: flex;
+  align-items: center;
+  padding: 5px;
+}
+
+.nb-brand img {
+  height: 100%;
+  margin-right: 20px;
+}
