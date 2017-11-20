@@ -44,9 +44,7 @@ class ParkShow extends Component {
 
 	}
 
-
-
-	componentWillMount() {
+	componentDidMount() {
 		const park = ParkAPI.get(parseInt(this.props.match.params.id, 10));
 		axios.get(`${NPS_PARKS_URL}${park.parkCode}&api_key=${NPS_API_KEY}`)
 			.then(response => {
@@ -106,7 +104,7 @@ class ParkShow extends Component {
         let updatedVC = this.state.visitorCenters.concat(response.data.data);
         this.setState({ visitorCenters: updatedVC});
        });
-    
+
 
 	}
 
@@ -125,10 +123,17 @@ class ParkShow extends Component {
 	
 
 	render() {
+
     let llgClose = () => this.setState({ llgShow: false });
     let lgClose = () => this.setState({ lgShow: false });
     let vcClose = () => this.setState({ vcShow: false });
 		const park = ParkAPI.get(parseInt(this.props.match.params.id, 10));
+    const num = parseInt(this.props.match.params.id, 10);
+    if (!num === park.id) {
+      console.log("id has changed");
+    } else {
+      console.log(park.name);
+    }
   		
   		if (!park && !this.state.lat) {
   			return <div>Sorry, the park was not found</div>

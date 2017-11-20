@@ -16,7 +16,7 @@ class NavBar extends Component {
         			<div className="dropdown-overflow">
         			  	{
             			  ParkAPI.all().map(p => (
-            			    <MenuItem><Link to={`/parks/${p.id}`}><p>{p.name}</p></Link></MenuItem>
+            			    <MenuItem componentClass="span"><Link to={`/parks/${p.id}`}><p>{p.name}</p></Link></MenuItem>
             			    ))
             			  }  
             		</div>
