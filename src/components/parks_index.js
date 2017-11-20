@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import '../index.css';
 import NavBar from './nav';
+import _ from 'lodash'; 
+
+const randomNumber = _.sample([0,1,2]);
 
 export const ParkAPI = {
   parks: [
@@ -25,12 +28,12 @@ export const ParkAPI = {
     { id: 18, name: "Crater Lake", parkCode: "crla", images: ["../images/crater_lake_1.png", "../images/crater2.jpg", "../images/crater3.jpg"]},
     { id: 19, name: "Cuyahoga Valley", parkCode: "cuva", images: ["../images/cuyahoga_valley_1.jpg", "../images/cuyahoga2.jpg", "../images/cuyahoga3.png"]},
     { id: 20, name: "Death Valley", parkCode: "deva", images: ["../images/death_valley_1.jpg", "../images/death2.jpg", "../images/death3.jpg"]},
-    { id: 21, name: "Dry Tortugas", parkCode: "drto", images: ["../images/dry_tortugas_1.jpeg", "../images/dry2.jpg", "../images.dry3.jpg"]},
+    { id: 21, name: "Dry Tortugas", parkCode: "drto", images: ["../images/dry_tortugas_1.jpeg", "../images/dry2.jpg", "../images/dry3.jpg"]},
     { id: 22, name: "Everglades", parkCode: "ever", images: ["../images/everglades_1.jpg", "../images/everglades2.jpg", "../images/everglades3.jpg"]},
     { id: 23, name: "Glacier", parkCode: "glac", images: ["../images/glacier_1.jpg", "../images/glacier2.jpg", "../images/glacier3.jpg"]},
     { id: 24, name: "Great Basin", parkCode: "grba", images: ["../images/great_basin_1.jpeg", "../images/gbasin2.jpg", "../images/gbasin3.jpg"]},
     { id: 25, name: "Great Sand Dunes", parkCode: "grsa", images: ["../images/great_sand_dunes_1.jpg", "../images/gsand_dunes2.jpg", "../images/gsand_dunes3.jpg"]},
-    { id: 26, name: "Great Smokey Mountains", parkCode: "grsm", images: ["../images/great_smokey_mt_1.jpg", "../images/gsmokey_mountain2.jpg", "../images/gsmokey_mountain3.jpg"]},
+    { id: 26, name: "Great Smokey Mountains", parkCode: "grsm", images: ["../images/great_smokey_mt_1.jpg", "../images/gsmoky_mountain2.jpg", "../images/gsmoky_mountain3.jpg"]},
     { id: 27, name: "Guadalupe Mountains", parkCode: "gumo", images: ["../images/guadalupe_1.jpg", "../images/guadalupe2.jpg", "../images/guadalupe3.jpg"]},
     { id: 28, name: "Haleakala", parkCode: "hale", images: ["../images/haleakala_1.jpg", "../images/haleakala_2.jpg", "../images/haleakala_3.jpg"]},
     { id: 29, name: "Hawaii Volcanoes", parkCode: "havo", images: ["../images/hawaii_volcanoes_1.jpg", "../images/hawaii_2.jpg", "../images/hawaii_3.jpg"]},
@@ -75,7 +78,7 @@ class ParksIndex extends Component {
             ParkAPI.all().map(p => (
               <div className="img_wrap"><Link to={`/parks/${p.id}`}>
                 
-                    <img className="img-thumbnail ind-img col-md-4 thumb" src={p.images[0]}></img>
+                    <img className="img-thumbnail ind-img col-md-4 thumb" src={p.images[randomNumber]}></img>
                     <p className="img_description">{p.title}</p>
                 
               </Link></div>

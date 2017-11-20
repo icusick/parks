@@ -8,8 +8,8 @@ class NavBar extends Component {
 		return (
 			<Navbar className="nav-flex">
 			<Navbar.Brand className="nb-brand">
-				<img className="d-inline-block align-top" src="../images/mountain_1.jpg" width="50" height="50" alt=""></img> 
-        		<a href="/">ParkDash</a>
+				<a href="/"><img className="d-inline-block align-top" src="../images/mountain_1.jpg" width="50" height="50" alt=""></img>ParkDash</a> 
+        		
       		</Navbar.Brand>	
       		<Nav>        		
         		<NavDropdown title="Pick a Park" id="basic-nav-dropdown">

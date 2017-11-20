@@ -6,6 +6,7 @@
     "axios": "^0.16.2",
     "google-maps-react": "^1.1.2",
     "immutability-helper": "^2.5.0",
+    "lodash": "^4.17.4",
     "prop-types": "^15.6.0",
     "react": "^16.0.0",
     "react-bootstrap": "^0.31.5",
