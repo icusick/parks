@@ -3,8 +3,14 @@ import { Link } from 'react-router-dom';
 import '../index.css';
 import NavBar from './nav';
 import _ from 'lodash'; 
+import ScrollToTop from 'react-scroll-up';
 
 const randomNumber = _.sample([0,1,2]);
+// const style = {
+//     position: 'fixed',
+//   bottom: 50,
+//   right: 30
+// }
 
 export const ParkAPI = {
   parks: [
@@ -76,14 +82,15 @@ class ParksIndex extends Component {
             <NavBar />
             {
             ParkAPI.all().map(p => (
-              <div className="img_wrap"><Link to={`/parks/${p.id}`}>
-                
+              <div className="img_wrap"><Link to={`/parks/${p.id}`}>                
                     <img className="img-thumbnail ind-img col-md-4 thumb" src={p.images[randomNumber]}></img>
-                    <p className="img_description">{p.title}</p>
-                
+                    <p className="img_description">{p.title}</p>               
               </Link></div>
               ))
             }
+            <ScrollToTop showUnder={160}>
+  <img src="../images/arrow_top.png" className="back-to-top"></img>
+</ScrollToTop>
       </div>
     )
   }

@@ -5,6 +5,7 @@ import { Carousel } from 'react-responsive-carousel';
 import styles from 'react-responsive-carousel/lib/styles/carousel.min.css';
 import { Modal, Button } from 'react-bootstrap';
 import update from 'immutability-helper';
+
 import '../index.css';
 
 import ParkWeather from './park_weather';

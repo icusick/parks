@@ -12,7 +12,7 @@ class NavBar extends Component {
         		
       		</Navbar.Brand>	
       		<Nav>        		
-        		<NavDropdown title="Pick a Park" id="basic-nav-dropdown">
+        		<NavDropdown title="Pick a Park" id="basic-nav-dropdown" noCaret>
         			<div className="dropdown-overflow">
         			  	{
             			  ParkAPI.all().map(p => (
