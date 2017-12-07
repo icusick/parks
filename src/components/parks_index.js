@@ -6,11 +6,6 @@ import _ from 'lodash';
 import ScrollToTop from 'react-scroll-up';
 
 const randomNumber = _.sample([0,1,2]);
-// const style = {
-//     position: 'fixed',
-//   bottom: 50,
-//   right: 30
-// }
 
 export const ParkAPI = {
   parks: [
@@ -89,8 +84,8 @@ class ParksIndex extends Component {
               ))
             }
             <ScrollToTop showUnder={160}>
-  <img src="../images/arrow_top.png" className="back-to-top"></img>
-</ScrollToTop>
+                <img src="../images/arrow_top.png" className="back-to-top"></img>
+            </ScrollToTop>
       </div>
     )
   }

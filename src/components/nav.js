@@ -6,9 +6,9 @@ import { DropdownButton, MenuItem, Navbar, Nav, NavDropdown } from 'react-bootst
 class NavBar extends Component {
 	render() {
 		return (
-			<Navbar className="nav-flex">
+			<Navbar className="nav-flex nav-custom">
 			<Navbar.Brand className="nb-brand">
-				<a href="/"><img className="d-inline-block align-top" src="../images/mountain_1.jpg" width="50" height="50" alt=""></img>ParkDash</a> 
+				<a href="/"><img className="d-inline-block align-top" src="../images/mountain_1.jpg" width="60" height="80" alt=""></img>ParkDash</a> 
         		
       		</Navbar.Brand>	
       		<Nav>        		

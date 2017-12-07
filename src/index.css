@@ -71,13 +71,17 @@
   padding: 5px;
 }
 
+.nav-custom {
+	margin-left: -140px;
+}
+
 .nb-brand img {
   height: 100%;
   margin-right: 20px;
 }
 
 .back-to-top {
-	margin-right: 135px;
+	/*margin-right: 135px;*/
 	height: 100px;
 	width: 100px;
 	
