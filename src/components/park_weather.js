@@ -33,7 +33,7 @@ class ParkWeather extends Component {
        		 // console.log("current temp: " + response.data.current_observation.feelslike_string);
        		 const feelslike = response.data.current_observation.feelslike_string;
        		 this.setState({ feelslike: feelslike })
-       		 console.log("feels like: " + response.data.current_observation.temp_f);
+       		 // console.log("feels like: " + response.data.current_observation.temp_f);
        		 const temp = response.data.current_observation.temp_f;
        		 this.setState({ temp: temp });
        		 const icon = response.data.current_observation.icon_url;

@@ -13,6 +13,7 @@ import GoogleMap from './park_map';
 import NYTimes from './ny_times';
 import { ParkAPI } from './parks_index';
 import NavBar from './nav';
+import NoteForm from './notepad_form';
 
 const NPS_API_KEY = 'B10fQSv2VLNENYG0DViy5qrHdRNSnl3vh1IQpeF1';
 
@@ -48,58 +49,36 @@ class ParkShow extends Component {
 		const park = ParkAPI.get(parseInt(this.props.match.params.id, 10));
 		axios.get(`${NPS_PARKS_URL}${park.parkCode}&api_key=${NPS_API_KEY}`)
 			.then(response => {
-				// console.log(response);
-				// console.log(response.data);
-				console.log(response.data.data);
-				// console.log(response.data.data.map(obj => obj.description));
+				// console.log(response.data.data);
 				const description = response.data.data.map(obj => obj.description);
-        // let updatedDescription = this.state.description.concat(description);
 				const directionsInfo = response.data.data.map(obj => obj.directionsInfo);
-        // let updatedDirections = update(this.state.directionsInfo, {$merge: {directionsInfo: directionsInfo}}); 
 				const weatherInfo = response.data.data.map(obj => obj.weatherInfo);
         let updatedWeather = update(this.state.weatherInfo, {$push: [weatherInfo]});
         const latLon = response.data.data.map(obj => obj.latLong);
-        // console.log(latLon)
-        const stringify = latLon.toString();
-        // console.log(stringify)
+        const stringify = latLon.toString();        
         const regEx = stringify.match(/lat:(.*), long:(.*)/);
-        // console.log(regEx);
         const lat = regEx[1];
         const lon = regEx[2];
-        // console.log("lat and lon: " + lat, lon);
-         // let lat = update(this.state.lat, {$push: [latt]});
-         // let lon = update(this.state.lon, {$push: [lonn]});
- 
-
-        // let updatedLat = this.state.lat.concat(lat);
-        // let updatedLon = this.state.lat.conca
-        // console.log(lat, lon);
         this.setState({ lat: lat, lon: lon})
-        // console.log(this.state.lat, this.state.lon);
-				// // console.log(description);
-				// this.setState({ description: description });
-				// this.setState({ directionsInfo: directionsInfo});
 				this.setState({ weatherInfo: updatedWeather, directionsInfo: directionsInfo, description: description });
 			});
 		axios.get(`${NPS_ALERTS_URL}${park.parkCode}&api_key=${NPS_API_KEY}`)
 			 .then(response => {
-			 	// console.log(response.data.data);
+			
 			 	const alerts = response.data.data;
 			 	this.setState({ alerts: alerts});
-			 	// console.log(this.state.alerts);
+	
 			});
 		axios.get(`${NPS_CAMPGROUNDS_URL}${park.parkCode}&api_key=${NPS_API_KEY}`)
 			 .then(response => {
-			 	// console.log(response.data.data);
+			 	
 			  const campgrounds = response.data.data;
-        // let updatedCampgrounds = update(this.state.campgrounds, {$push: [campgrounds]});
-			 	// this.setState(prevState => ({ campgrounds: prevState.campgrounds.push(campgrounds)}));
-        // console.log(this.state.campgrounds[0].regulationsUrl);
+   
         this.setState({ campgrounds: campgrounds })
 			 });
     axios.get(`${NPS_VISITORCENTER_URL}${park.parkCode}&api_key=${NPS_API_KEY}`)
        .then(response => {
-        // console.log(response.data.data);
+        
         const visitorCenters = response.data.data;
         let updatedVC = this.state.visitorCenters.concat(response.data.data);
         this.setState({ visitorCenters: updatedVC});
@@ -108,7 +87,7 @@ class ParkShow extends Component {
 
 	}
 
-  //react-bootstrap 
+
   getInitialState() {
     return { llgShow: false, lgShow: false, vcShow: false };
   }
@@ -187,6 +166,7 @@ class ParkShow extends Component {
                 <ParkWeather city={park.name} lat={this.state.lat} lon={this.state.lon} parkcode={park.parkCode}/>
               </div> 
             </div>
+            <div><NoteForm /></div>
         </div>
         </div>
 		  )
