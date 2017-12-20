@@ -26,8 +26,9 @@ class NYTimes extends Component {
 		return (
 			<div className="ny-times-div">
 			<h3 className ="ny-times">New York Times</h3>
-			<ul className="list-group scrollify">{this.state.articles.map(article =>
+			<ul className="list-group scrollify outline">{this.state.articles.map(article =>
 				<a href={article.web_url} target="_blank" className="list-group-item" key={article._id}><strong>{article.headline.main}</strong><p>{article.snippet}</p></a>
+				
 				)}
 			</ul>
 			</div>

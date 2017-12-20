@@ -7,18 +7,21 @@ class NoteForm extends Component {
 
 		this.state = {
 			user: '', 
-			note: ''
+			note: '', 
+			park: ''
 		}
 
 		this._submitResponse = this._submitResponse.bind(this);
 		this._clearForm = this._clearForm.bind(this);
 		this._handleUserSubmission = this._handleUserSubmission.bind(this);
 		this._handleNoteSubmission = this._handleNoteSubmission.bind(this);
+		this._handleHidden = this._handleHidden.bind(this);
 	}
 
 	_clearForm() {
 		this.setState({user: ''});
-		this.setState({note: ''})
+		this.setState({note: ''});
+
 	}
 
 	// prevent page reload and store input values to an object
@@ -29,14 +32,15 @@ class NoteForm extends Component {
 		if(this.state.user && this.state.note) {
 			let noteResponse = {
 				user: this.state.user,
-				note: this.state.note
+				note: this.state.note, 
+				park: this.props.park
 			}
 
-			console.log(noteResponse);
+			
 			
 			// turn response object into a string for local storage
 			noteResponse = JSON.stringify(noteResponse);
-
+			console.log(noteResponse);
       		// stores item using localStorage. Response is in JSON format.
       		localStorage.setItem(localStorage.length, noteResponse);
 			// clear input fields and set state to empty strings again
@@ -55,34 +59,40 @@ class NoteForm extends Component {
 		this.setState({note: e.target.value})
 	}
 
+	_handleHidden(e) {
+		this.setState({park: e.target.value})
+	}
+
 	render() {
 		return (
 		<Form horizontal className='well col-md-5'>
         <FormGroup >
-          <Col className="col-md-2">
+          <p className="col-md-2">
             Name: 
-          </Col>
-          <Col className="col-md-5">
-            <FormControl componentClass='textarea' value={this.state.user} onSubmit={this._handleUserSubmission} placeholder='Your name goes here'/>
-          </Col>
+          </p>
+          <p className="col-md-5">
+            <FormControl componentClass='textarea' value={this.state.user} onChange={this._handleUserSubmission} placeholder='Your name goes here'/>
+          </p>
         </FormGroup>
 
         <FormGroup>
-          <Col className="col-md-2">
+          <p className="col-md-2">
             Note:
-          </Col>
-          <Col className='col-md-8'>
-            <FormControl componentClass='textarea' value={this.state.note} onSubmit={this._handleNoteSubmission} placeholder='What can you tell us about your experience at this park?'/>
-          </Col>
+          </p>
+          <p className='col-md-8'>
+            <FormControl componentClass='textarea' value={this.state.note} onChange={this._handleNoteSubmission} placeholder='What can you tell us about your experience at this park?'/>
+          </p>
         </FormGroup>
+        <input type="hidden" id="postId" name="postId" value={this.props.park}></input>
         <FormGroup>
           <Col className="col-md-3 offset-md-2">
-            <Button onSubmit={this._submitResponse} type='submit'>
+            <Button onClick={this._submitResponse} type='submit' className="btn btn-primary">
               Submit
             </Button>
           </Col>
         </FormGroup>
       </Form>
+      
     );
 			
 	}

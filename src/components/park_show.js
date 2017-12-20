@@ -14,6 +14,7 @@ import NYTimes from './ny_times';
 import { ParkAPI } from './parks_index';
 import NavBar from './nav';
 import NoteForm from './notepad_form';
+import NotesDisplay from './notes_display';
 
 const NPS_API_KEY = 'B10fQSv2VLNENYG0DViy5qrHdRNSnl3vh1IQpeF1';
 
@@ -166,7 +167,13 @@ class ParkShow extends Component {
                 <ParkWeather city={park.name} lat={this.state.lat} lon={this.state.lon} parkcode={park.parkCode}/>
               </div> 
             </div>
-            <div><NoteForm /></div>
+            <div>
+              <h1>Notepad</h1>
+            </div>
+            <div className="row container">              
+              <NoteForm park={park.name} />
+              <NotesDisplay park={park.name} />
+            </div>
         </div>
         </div>
 		  )

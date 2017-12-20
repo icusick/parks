@@ -77,7 +77,7 @@ class ParksIndex extends Component {
             <NavBar />
             {
             ParkAPI.all().map(p => (
-              <div className="img_wrap"><Link to={`/parks/${p.id}`}>                
+              <div className="img_wrap"><Link to={`/parks/${p.id}`}>              
                     <img className="img-thumbnail ind-img col-md-4 thumb" src={p.images[randomNumber]}></img>
                     <p className="img_description">{p.title}</p>               
               </Link></div>

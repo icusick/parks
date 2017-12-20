@@ -15,6 +15,10 @@
 	  height: 400px;
 }
 
+.outline {
+	outline: 1px solid grey;
+}
+
 .ind-img:hover {
 	background-color: grey;
 	opacity: 0.5;
@@ -47,9 +51,18 @@
 	font-size: 50px;
 }
 
-.img_img:hover .img_description {
+.img_img:hover {
   visibility: visible;
   opacity: 1;
+}
+
+/*.img_description {
+	display: none;
+}*/
+
+.img_description:hover {
+	/*display: block;*/
+	visibility: visible;
 }
 
 /*.navbar-header a{float:left}*/
@@ -86,4 +99,9 @@
 	width: 100px;
 	
 	/*position: fixed;*/
+}
+
+.custom-form {
+	background-color: #bee2a7;
+	padding-top: 10px;
 }
