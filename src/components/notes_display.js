@@ -12,15 +12,19 @@ class NotesDisplay extends Component {
     	let notes = [],
     	    keys = Object.keys(localStorage),
     	    i = keys.length;
-	
+    	// i = 0;
+		// while (i < keys.length) {
+			// let parsedNotes = JSON.parse(localStorage.getItem(keys[i]));
+			// notes.push( parsedNotes );
+   //  	}
+		// }
+		
     	while ( i-- ) {
     	    let parsedNotes = JSON.parse(localStorage.getItem(keys[i]));
     	    notes.push( parsedNotes );
     	}
 	
-    	// console.log(values); 
-    	
-    	return notes.map((note) =>  {
+       	return notes.map((note) =>  {
     	 	if(note.park === this.props.park) {
     	 		return <li className="list-group-item"><strong>{note.user}</strong><p>{note.note}</p></li>
     	 	}

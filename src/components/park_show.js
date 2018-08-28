@@ -50,7 +50,7 @@ class ParkShow extends Component {
 		const park = ParkAPI.get(parseInt(this.props.match.params.id, 10));
 		axios.get(`${NPS_PARKS_URL}${park.parkCode}&api_key=${NPS_API_KEY}`)
 			.then(response => {
-				// console.log(response.data.data);
+				console.log(response.data.data);
 				const description = response.data.data.map(obj => obj.description);
 				const directionsInfo = response.data.data.map(obj => obj.directionsInfo);
 				const weatherInfo = response.data.data.map(obj => obj.weatherInfo);
@@ -209,9 +209,10 @@ class MyLargeModal extends Component {
         </Modal.Header>
         <Modal.Body>
           <h4>Total: {this.props.campgrounds.length}</h4>
-          <ul>{this.props.campgrounds.map(campground =>
+         <ul>{this.props.campgrounds.map(campground =>
             <li key={campground.id}><strong>{campground.name}:</strong><p>{campground.directionsOverview}</p></li>
-          )}</ul>
+         )}</ul>
+
 
         </Modal.Body>
         <Modal.Footer>

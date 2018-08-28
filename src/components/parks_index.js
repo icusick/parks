@@ -9,7 +9,7 @@ const randomNumber = _.sample([0,1,2]);
 
 export const ParkAPI = {
   parks: [
-    { id: 1, name: "Acadia", parkCode: "acad", images: ["../images/acadia_2.jpg", "../images/acadia_3.jpg", "../images/acadia_4.jpg", "../images/acadia_5.jpg", "../images/acadia_6.jpg", "../images/acadia_7.jpg"]},
+    { id: 1, name: "Acadia", parkCode: "acad", images: ["../images/acadia_2_opt.jpg", "../images/acadia_3.jpg", "../images/acadia_4.jpg", "../images/acadia_5.jpg", "../images/acadia_6.jpg", "../images/acadia_7.jpg"]},
     { id: 2, name: "Yosemite", parkCode: "yose", images: ["../images/yosemite1.jpg", "../images/yosemite2.jpg", "../images/yosemite3.jpg"]},
     { id: 3, name: "Yellowstone", parkCode: "yell", images: ["../images/yellowstone1.jpg", "../images/yellowstone5.jpg", "../images/yellowstone2.jpg"] },
     { id: 4, name: "Grand Tetons", parkCode: "grte", images: ["../images/grand_tetons1.jpg", "../images/grand_tetons_3.jpg", "../images/grand_tetons_4.kpj.jpg", "../images/grand_tetons_5.jpg.jpg", "../images/grand_tetons_6.jpg"] },
@@ -79,7 +79,7 @@ class ParksIndex extends Component {
             ParkAPI.all().map(p => (
               <div className="img_wrap"><Link to={`/parks/${p.id}`}>              
                     <img className="img-thumbnail ind-img col-md-4 thumb" src={p.images[randomNumber]}></img>
-                    <p className="img_description">{p.title}</p>               
+                    <p className="u">{p.title}</p>               
               </Link></div>
               ))
             }
