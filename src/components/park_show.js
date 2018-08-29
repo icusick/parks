@@ -18,10 +18,10 @@ import NotesDisplay from './notes_display';
 
 const NPS_API_KEY = 'B10fQSv2VLNENYG0DViy5qrHdRNSnl3vh1IQpeF1';
 
-const NPS_PARKS_URL = '//developer.nps.gov/api/v1/parks?parkCode=';
-const NPS_ALERTS_URL = '//developer.nps.gov/api/v1/alerts?parkCode=';
-const NPS_CAMPGROUNDS_URL = '//developer.nps.gov/api/v1/campgrounds?parkCode=';
-const NPS_VISITORCENTER_URL = '//developer.nps.gov/api/v1/visitorcenters?parkCode=';
+const NPS_PARKS_URL = 'https://developer.nps.gov/api/v1/parks?parkCode=';
+const NPS_ALERTS_URL = 'https://developer.nps.gov/api/v1/alerts?parkCode=';
+const NPS_CAMPGROUNDS_URL = 'https://developer.nps.gov/api/v1/campgrounds?parkCode=';
+const NPS_VISITORCENTER_URL = 'https://developer.nps.gov/api/v1/visitorcenters?parkCode=';
 
 const WUNDERGROUNG_URL = '//api.wunderground.com/api/b5806acb9436670f/conditions/q/';
 

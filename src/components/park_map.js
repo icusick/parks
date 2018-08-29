@@ -14,7 +14,7 @@ class GoogleMap extends Component {
 
 	render() {
         const initialCenter = {lat: this.props.lat, lng: this.props.lon}
-     	// console.log("ic is " + initialCenter.lat);
+     	console.log("ic is " + initialCenter.lat);
      	if (!initialCenter.lat) {
      		return (<div><i className="fa fa-spinner fa-spin glyph"></i></div>)
      	} else {
